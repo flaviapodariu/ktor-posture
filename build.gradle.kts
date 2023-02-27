@@ -38,6 +38,7 @@ dependencies {
     implementation("org.litote.kmongo:kmongo:$kMongoVersion")
     implementation("org.litote.kmongo:kmongo-coroutine:$kMongoVersion")
     implementation("io.ktor:ktor-server-openapi:$ktorVersion")
+
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktorVersion")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
 }

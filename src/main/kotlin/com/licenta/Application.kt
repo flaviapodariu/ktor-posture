@@ -1,6 +1,6 @@
 package com.licenta
 
-import com.licenta.data.models.datasources.user.UserDataSourceImpl
+import com.licenta.data.models.datasources.UserDataSourceImpl
 import io.ktor.server.application.*
 import com.licenta.plugins.*
 import com.licenta.security.HashingServiceImpl
@@ -37,5 +37,5 @@ fun Application.module() {
     configureMonitoring()
     configureSerialization()
     configureHTTP()
-    configureRouting()
+    configureRouting(hashingService, userDataSource, tokenService, tokenConfig)
 }

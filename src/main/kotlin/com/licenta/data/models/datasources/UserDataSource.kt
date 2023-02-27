@@ -1,4 +1,4 @@
-package com.licenta.data.models.datasources.user
+package com.licenta.data.models.datasources
 
 import com.licenta.data.models.User
 

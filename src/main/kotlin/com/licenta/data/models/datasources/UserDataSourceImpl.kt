@@ -1,6 +1,7 @@
-package com.licenta.data.models.datasources.user
+package com.licenta.data.models.datasources
 
 import com.licenta.data.models.User
+import com.licenta.data.models.datasources.UserDataSource
 import org.litote.kmongo.coroutine.CoroutineDatabase
 import org.litote.kmongo.eq
 

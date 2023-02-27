@@ -4,7 +4,7 @@ import com.licenta.data.models.User
 import com.licenta.data.models.request.LoginReq
 import com.licenta.data.models.request.RegisterReq
 import com.licenta.data.models.response.AuthenticationRes
-import com.licenta.data.models.datasources.user.UserDataSource
+import com.licenta.data.models.datasources.UserDataSource
 import com.licenta.security.HashingService
 import com.licenta.security.SaltedHash
 import com.licenta.security.jwt.JwtTokenService
@@ -19,7 +19,9 @@ import io.ktor.server.routing.*
 
 fun Route.register(
     hashingService: HashingService,
-    userDataSource: UserDataSource
+    userDataSource: UserDataSource,
+    tokenService: JwtTokenService,
+    tokenConfig: TokenConfig
 ) {
     post("register") {
         val req = call.receiveNullable<RegisterReq>() ?: run {
@@ -41,7 +43,15 @@ fun Route.register(
             call.respond(HttpStatusCode.Conflict)
         }
 
-        call.respond(HttpStatusCode.Created)
+        val token = tokenService.generate(
+            tokenConfig,
+            TokenClaim("email", user.email),
+            TokenClaim("nickname", user.nickname)
+        )
+
+        call.respond(
+            status= HttpStatusCode.Created,
+            message= AuthenticationRes(token, user.nickname))
     }
 }
 fun Route.login(
@@ -63,7 +73,7 @@ fun Route.login(
         }
 
         val saltedHash = SaltedHash(user.salt, user.password)
-        if(!hashingService.verify(user.password, saltedHash)) {
+        if(!hashingService.verify(req.password, saltedHash)) {
             call.respond(HttpStatusCode.Unauthorized)
             return@post
         }
@@ -74,16 +84,17 @@ fun Route.login(
             TokenClaim("nickname", user.nickname)
             )
         call.respond(status=HttpStatusCode.OK,
-            message = AuthenticationRes(token))
+            message = AuthenticationRes(token, user.nickname))
+        return@post
 }
 
-    // if token is not valid authenticate handles, else respond ok
-    fun Route.checkAuthOnStart() {
-            authenticate {
-                get {
-                    call.respond(HttpStatusCode.OK)
-                }
-            }
-    }
+}
 
+// if token is not valid authenticate handles, else respond ok
+fun Route.checkAuthOnStart() {
+    authenticate {
+        get {
+            call.respond(HttpStatusCode.OK)
+        }
+    }
 }
