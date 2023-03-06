@@ -1,19 +1,23 @@
 package com.licenta.data.models.datasources
 
-import com.licenta.data.models.User
-import com.licenta.data.models.datasources.UserDataSource
-import org.litote.kmongo.coroutine.CoroutineDatabase
-import org.litote.kmongo.eq
+import com.licenta.data.models.db.User
+import com.licenta.data.models.db.users
+import org.ktorm.database.Database
+import org.ktorm.dsl.eq
+import org.ktorm.entity.add
+import org.ktorm.entity.all
+import org.ktorm.entity.find
 
 class UserDataSourceImpl(
-    db:  CoroutineDatabase
+    db: Database
 ): UserDataSource {
 
-    private val users = db.getCollection<User>()
+    private val users = db.users
     override suspend fun getUserByEmail(email: String): User? {
-        return users.findOne(User::email eq email)
+        return users.find {it.email eq email}
     }
     override suspend fun createUser(user: User): Boolean {
-        return users.insertOne(user).wasAcknowledged()
+        users.add(user)
+        return user.id != 0
     }
 }

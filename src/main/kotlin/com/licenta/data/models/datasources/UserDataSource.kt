@@ -1,6 +1,6 @@
 package com.licenta.data.models.datasources
 
-import com.licenta.data.models.User
+import com.licenta.data.models.db.User
 
 interface UserDataSource {
 

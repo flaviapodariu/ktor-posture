@@ -1,26 +1,32 @@
 package com.licenta
 
+import com.licenta.data.models.datasources.HistoryDataSourceImpl
 import com.licenta.data.models.datasources.UserDataSourceImpl
-import io.ktor.server.application.*
 import com.licenta.plugins.*
 import com.licenta.security.HashingServiceImpl
 import com.licenta.security.jwt.JwtTokenService
 import com.licenta.security.jwt.TokenConfig
+import io.ktor.server.application.*
+import io.ktor.server.config.*
 import io.ktor.util.reflect.*
-import org.litote.kmongo.coroutine.coroutine
-import org.litote.kmongo.reactivestreams.KMongo
+import org.ktorm.database.Database
 
 fun main(args: Array<String>): Unit =
         io.ktor.server.netty.EngineMain.main(args)
 
 @Suppress("unused") // application.conf references the main function. This annotation prevents the IDE from marking it as unused.
 fun Application.module() {
-    val dbPassword = System.getenv("DB_PASSWORD")
-    val dbName = "ktor-posture"
-    val db = KMongo.createClient(
-        connectionString = "mongodb+srv://flaviapodariu:$dbPassword@postureimprover.bd0pdk4.mongodb.net/$dbName?retryWrites=true&w=majority"
-    ).coroutine.getDatabase(dbName)
+    System.setProperty("kotlinx.serialization.debug", "true")
+    val url = environment.config.property("database.url").getString()
+    val user = environment.config.property("database.user").getString()
+    val pass = System.getenv("DB_PASSWORD")
+    val db = Database.connect(
+        url = url,
+        user = user,
+        password = pass
+    )
 
+    val historyDataSource = HistoryDataSourceImpl(db)
     val userDataSource = UserDataSourceImpl(db)
     val tokenService = JwtTokenService()
     val tokenConfig = TokenConfig(
@@ -37,5 +43,5 @@ fun Application.module() {
     configureMonitoring()
     configureSerialization()
     configureHTTP()
-    configureRouting(hashingService, userDataSource, tokenService, tokenConfig)
+    configureRouting(hashingService, historyDataSource, userDataSource, tokenService, tokenConfig)
 }

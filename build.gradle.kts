@@ -3,6 +3,8 @@ val kotlinVersion: String by project
 val logbackVersion: String by project
 val kMongoVersion: String by project
 val commonsCodecVersion: String by project
+val mySqlVersion: String by project
+val ktormVersion: String by project
 plugins {
     kotlin("jvm") version "1.8.10"
     id("io.ktor.plugin") version "2.2.3"
@@ -31,6 +33,7 @@ dependencies {
     implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-call-logging-jvm:$ktorVersion")
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktorVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
     implementation("io.ktor:ktor-server-swagger:$ktorVersion")
     implementation("io.ktor:ktor-server-netty-jvm:$ktorVersion")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
@@ -39,6 +42,10 @@ dependencies {
     implementation("org.litote.kmongo:kmongo-coroutine:$kMongoVersion")
     implementation("io.ktor:ktor-server-openapi:$ktorVersion")
 
+    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+    implementation("mysql:mysql-connector-java:$mySqlVersion")
+    implementation("org.ktorm:ktorm-core:$ktormVersion")
+    implementation("org.ktorm:ktorm-support-mysql:$ktormVersion")
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktorVersion")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
 }

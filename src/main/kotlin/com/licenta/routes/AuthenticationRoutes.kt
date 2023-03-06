@@ -1,6 +1,6 @@
 package com.licenta.routes
 
-import com.licenta.data.models.User
+import com.licenta.data.models.db.User
 import com.licenta.data.models.request.LoginReq
 import com.licenta.data.models.request.RegisterReq
 import com.licenta.data.models.response.AuthenticationRes
@@ -28,15 +28,19 @@ fun Route.register(
             call.respond(HttpStatusCode.BadRequest) // req json could not be mapped to register request model
             return@post
         }
+        if(userDataSource.getUserByEmail(req.email) != null) {
+            call.respond(HttpStatusCode.Conflict)
+            return@post
+        }
 
         //other exceptions
         val saltedHash = hashingService.generateSaltedHash(req.password)
-        val user =  User(
-            email = req.email,
-            nickname = req.nickname,
-            password = saltedHash.hash,
+        val user =  User{
+            email = req.email
+            nickname = req.nickname
+            password = saltedHash.hash
             salt = saltedHash.salt
-        )
+    }
 
         val created = userDataSource.createUser(user)
         if(!created) {
@@ -45,7 +49,7 @@ fun Route.register(
 
         val token = tokenService.generate(
             tokenConfig,
-            TokenClaim("email", user.email),
+            TokenClaim("id", "${user.id}"),
             TokenClaim("nickname", user.nickname)
         )
 
@@ -78,9 +82,9 @@ fun Route.login(
             return@post
         }
 
-        val token = tokenService.generate(
+        val token = tokenService. generate(
             tokenConfig,
-            TokenClaim("email", user.email),
+            TokenClaim("id", "${user.id}"),
             TokenClaim("nickname", user.nickname)
             )
         call.respond(status=HttpStatusCode.OK,
