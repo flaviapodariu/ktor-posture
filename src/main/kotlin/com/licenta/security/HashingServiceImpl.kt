@@ -1,6 +1,5 @@
 package com.licenta.security
 
-import com.licenta.data.models.BackProblem
 import org.apache.commons.codec.digest.DigestUtils
 import java.security.SecureRandom
 

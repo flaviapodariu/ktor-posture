@@ -1,6 +1,6 @@
 package com.licenta.plugins
 
-import com.licenta.data.models.db.LocalDateSerializer
+import com.licenta.data.db.LocalDateSerializer
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.contentnegotiation.*

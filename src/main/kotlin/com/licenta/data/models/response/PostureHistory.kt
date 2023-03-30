@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class PostureHistory(
-    val postureCaptures: List<CaptureDto> = listOf()
+    val captures: List<CaptureRes> = listOf()
 )
 
 

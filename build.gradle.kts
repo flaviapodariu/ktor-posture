@@ -5,6 +5,7 @@ val kMongoVersion: String by project
 val commonsCodecVersion: String by project
 val mySqlVersion: String by project
 val ktormVersion: String by project
+val koin_ktor: String by project
 plugins {
     kotlin("jvm") version "1.8.10"
     id("io.ktor.plugin") version "2.2.3"
@@ -41,6 +42,10 @@ dependencies {
     implementation("org.litote.kmongo:kmongo:$kMongoVersion")
     implementation("org.litote.kmongo:kmongo-coroutine:$kMongoVersion")
     implementation("io.ktor:ktor-server-openapi:$ktorVersion")
+    // Koin for Ktor
+    implementation("io.insert-koin:koin-ktor:$koin_ktor")
+    // SLF4J Logger
+    implementation( "io.insert-koin:koin-logger-slf4j:$koin_ktor")
 
     // https://mvnrepository.com/artifact/mysql/mysql-connector-java
     implementation("mysql:mysql-connector-java:$mySqlVersion")
@@ -48,4 +53,5 @@ dependencies {
     implementation("org.ktorm:ktorm-support-mysql:$ktormVersion")
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktorVersion")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
+
 }

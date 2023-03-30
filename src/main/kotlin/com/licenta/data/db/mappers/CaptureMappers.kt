@@ -1,10 +1,10 @@
-package com.licenta.data.models.db.mappers
+package com.licenta.data.db.mappers
 
-import com.licenta.data.models.db.Capture
-import com.licenta.data.models.request.PostureCaptureReq
-import com.licenta.data.models.response.CaptureDto
+import com.licenta.data.db.Capture
+import com.licenta.data.models.request.CaptureReq
+import com.licenta.data.models.response.CaptureRes
 
-fun postureCaptureReqToCapture(postureReq: PostureCaptureReq) : Capture {
+fun postureCaptureReqToCapture(postureReq: CaptureReq) : Capture {
     return Capture {
         headForward = postureReq.headForward
         lordosis = postureReq.lordosis
@@ -12,8 +12,8 @@ fun postureCaptureReqToCapture(postureReq: PostureCaptureReq) : Capture {
     }
 }
 
-fun captureToCaptureDto(capture: Capture) : CaptureDto {
-    return CaptureDto(
+fun captureToCaptureDto(capture: Capture) : CaptureRes {
+    return CaptureRes(
         id = capture.id,
         userId = capture.user.id,
         headForward = capture.headForward,

@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 import java.time.LocalDate
 
 @Serializable
-data class CaptureDto(
+data class CaptureRes(
     val id: Int,
     var userId: Int,
     var headForward: Float,

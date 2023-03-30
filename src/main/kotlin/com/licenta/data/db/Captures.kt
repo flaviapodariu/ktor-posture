@@ -1,4 +1,4 @@
-package com.licenta.data.models.db
+package com.licenta.data.db
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
@@ -18,7 +18,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 @Serializable
-sealed interface Capture: Entity<Capture> {
+sealed interface Capture : Entity<Capture> {
     @Serializable
     companion object : Entity.Factory<Capture>()
     val id: Int
@@ -29,12 +29,12 @@ sealed interface Capture: Entity<Capture> {
     var date: LocalDate
 }
 
-object Captures : Table<Capture>("captures") {
+object Captures : Table<Capture>(tableName = "captures") {
     val id = int("id").primaryKey().bindTo { it.id }
     val userId = int("userId").references(Users) { it.user }
-    val headForward = float("headForward").bindTo { it.headForward }
+    val headForward = float("head_forward").bindTo { it.headForward }
     val lordosis = float("lordosis").bindTo { it.lordosis }
-    val roundedShoulders = float("roundedShoulders").bindTo { it.roundedShoulders }
+    val roundedShoulders = float("rounded_shoulders").bindTo { it.roundedShoulders }
     val date = date("date").bindTo { it.date }
 }
 
@@ -48,7 +48,7 @@ object LocalDateSerializer : KSerializer<LocalDate> {
         encoder.encodeString(result)
     }
 
-    override fun deserialize(decoder: Decoder): LocalDate {
+    override fun deserialize(decoder: Decoder) : LocalDate {
         return LocalDate.parse(decoder.decodeString())
     }
 }

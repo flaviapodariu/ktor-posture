@@ -1,4 +1,4 @@
-package com.licenta.data.models.db
+package com.licenta.data.db
 
 import kotlinx.serialization.Serializable
 import org.ktorm.database.Database
@@ -10,7 +10,7 @@ import org.ktorm.schema.varchar
 
 @Serializable
 
-sealed interface User: Entity<User> {
+sealed interface User : Entity<User> {
     @Serializable
     companion object : Entity.Factory<User>()
     val id: Int
@@ -26,6 +26,7 @@ object Users : Table<User>("users") {
     val nickname = varchar("nickname").bindTo { it.nickname }
     val password = varchar("password").bindTo { it.password }
     val salt = varchar("salt").bindTo { it.salt }
+//    val workoutId = int("workoutId").references(Workout).bindTo { it.workout }
 }
 
 val Database.users get() = this.sequenceOf(Users)

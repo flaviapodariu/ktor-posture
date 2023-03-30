@@ -1,10 +1,10 @@
 package com.licenta.routes
 
-import com.licenta.data.models.db.User
+import com.licenta.data.db.User
 import com.licenta.data.models.request.LoginReq
 import com.licenta.data.models.request.RegisterReq
-import com.licenta.data.models.response.AuthenticationRes
-import com.licenta.data.models.datasources.UserDataSource
+import com.licenta.data.models.response.AuthRes
+import com.licenta.data.datasources.UserDataSource
 import com.licenta.security.HashingService
 import com.licenta.security.SaltedHash
 import com.licenta.security.jwt.JwtTokenService
@@ -13,6 +13,7 @@ import com.licenta.security.jwt.TokenConfig
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -55,7 +56,7 @@ fun Route.register(
 
         call.respond(
             status= HttpStatusCode.Created,
-            message= AuthenticationRes(token, user.nickname))
+            message= AuthRes(token, user.nickname))
     }
 }
 fun Route.login(
@@ -88,7 +89,7 @@ fun Route.login(
             TokenClaim("nickname", user.nickname)
             )
         call.respond(status=HttpStatusCode.OK,
-            message = AuthenticationRes(token, user.nickname))
+            message = AuthRes(token, user.nickname))
         return@post
 }
 
@@ -98,7 +99,13 @@ fun Route.login(
 fun Route.checkAuthOnStart() {
     authenticate {
         get {
-            call.respond(HttpStatusCode.OK)
+            val nickname = call.principal<JWTPrincipal>()!!
+                .payload.getClaim("nickname").asString()
+
+            println("nickn: ${nickname}")
+            call.respond(
+                HttpStatusCode.OK,
+                message= nickname)
         }
     }
 }

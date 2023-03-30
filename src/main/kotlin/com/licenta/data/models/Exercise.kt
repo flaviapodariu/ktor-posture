@@ -4,16 +4,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Exercise(
-    val name: String,
-    val description: String,
-    val treats: BackProblem,
-    val reps: Int
+    val id: Int,
+    var name: String,
+    var description: String,
+    var lordosisScore: Int,
+    var headFwdScore: Int,
+    var roundedShScore: Int
 )
-
-@Serializable
-data class BackProblem(val code: Int, val name: String) {
-    companion object {
-        val Lordosis = BackProblem(code=1, name="Lordosis")
-        val HeadForward = BackProblem(code=2, name="Head forward")
-    }
-}

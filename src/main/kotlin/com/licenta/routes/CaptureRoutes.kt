@@ -1,9 +1,7 @@
 package com.licenta.routes
 
-import com.licenta.data.models.datasources.HistoryDataSource
-import com.licenta.data.models.db.Capture
-import com.licenta.data.models.request.PostureCaptureReq
-import com.licenta.data.models.response.PostureHistory
+import com.licenta.data.datasources.CaptureDataSource
+import com.licenta.data.models.request.CaptureReq
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
@@ -11,20 +9,17 @@ import io.ktor.server.auth.jwt.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import io.ktor.util.Identity.decode
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
 
-fun Route.getUserHistory(
-    historyDataSource: HistoryDataSource
+fun Route.getUserCaptures(
+    captureDataSource: CaptureDataSource
 ) {
     authenticate {
         get("dashboard") {
             val id = call.principal<JWTPrincipal>()!!
                 .payload.getClaim("id").asString()
 
-            //what is user does not exist?
-            val userHistory = PostureHistory(historyDataSource.getHistory(id.toInt()))
+            //what if user does not exist?
+            val userHistory = captureDataSource.getAllCaptures(id.toInt())
 
             call.respond(
                 status = HttpStatusCode.OK,
@@ -37,29 +32,30 @@ fun Route.getUserHistory(
 
 }
 
-fun Route.sendPosture(
-    historyDataSource: HistoryDataSource
+fun Route.insertCapture(
+    captureDataSource: CaptureDataSource
 ) {
     authenticate{
         post("dashboard") {
-           val req = call.receiveNullable<PostureCaptureReq>() ?: run {
+            println("endpoint hit")
+           val req = call.receiveNullable<CaptureReq>() ?: run {
                 call.respond(HttpStatusCode.BadRequest) // req json could not be mapped to register request model
                 return@post
             }
             val id = call.principal<JWTPrincipal>()!!
                 .payload.getClaim("id").asString()
 
-            if (!historyDataSource.addNewCapture(id.toInt(), req)) {
+            if (!captureDataSource.insertCapture(id.toInt(), req)) {
                 call.respond(
                     status = HttpStatusCode.BadRequest,
-                    message="Could not update daily posture. Please try again later!")
+                    message= false
+                )
                 return@post
             }
-            // evaluate posture score
-            // create workout and send it with the res
+
             call.respond(
-                status = HttpStatusCode.OK,
-                message = "workout :)"
+                status = HttpStatusCode.Created,
+                message = true
             )
             return@post
         }
