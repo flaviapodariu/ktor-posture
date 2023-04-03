@@ -42,4 +42,6 @@ val postureModule = module {
         )
     }
     single<HashingService> { HashingServiceImpl() }
+
+
 }

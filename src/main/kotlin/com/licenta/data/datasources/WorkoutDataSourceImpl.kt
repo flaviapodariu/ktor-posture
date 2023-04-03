@@ -23,12 +23,12 @@ class WorkoutDataSourceImpl(
              }
     }
 
-    override suspend fun insertWorkout(workout: List<UsersExercise>) : Boolean {
+    override suspend fun insertWorkout(userId: Int, workout: List<UsersExercise>) : Boolean {
         try {
             db.bulkInsert(UsersExercises) {
                 workout.forEach { exercise ->
                     item {
-                        set(it.userId, exercise.user.id)
+                        set(it.userId, userId)
                         set(it.exerciseId, exercise.exercise.id)
                         set(it.reps, exercise.reps)
                     }

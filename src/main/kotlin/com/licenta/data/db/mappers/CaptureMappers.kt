@@ -1,24 +1,24 @@
 package com.licenta.data.db.mappers
 
-import com.licenta.data.db.Capture
+import com.licenta.data.db.CaptureEntity
 import com.licenta.data.models.request.CaptureReq
 import com.licenta.data.models.response.CaptureRes
 
-fun postureCaptureReqToCapture(postureReq: CaptureReq) : Capture {
-    return Capture {
-        headForward = postureReq.headForward
-        lordosis = postureReq.lordosis
-        roundedShoulders = postureReq.roundedShoulders
+fun captureReqToCaptureEntity(captureReq: CaptureReq) : CaptureEntity {
+    return CaptureEntity {
+        headForward = captureReq.headForward
+        lordosis = captureReq.lordosis
+        roundedShoulders = captureReq.roundedShoulders
     }
 }
 
-fun captureToCaptureDto(capture: Capture) : CaptureRes {
+fun captureEntityToCaptureDto(captureEntity: CaptureEntity) : CaptureRes {
     return CaptureRes(
-        id = capture.id,
-        userId = capture.user.id,
-        headForward = capture.headForward,
-        lordosis = capture.lordosis,
-        roundedShoulders = capture.roundedShoulders,
-        date = capture.date
+        id = captureEntity.id,
+        userId = captureEntity.user.id,
+        headForward = captureEntity.headForward,
+        lordosis = captureEntity.lordosis,
+        roundedShoulders = captureEntity.roundedShoulders,
+        date = captureEntity.date
     )
 }

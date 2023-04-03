@@ -1,6 +1,5 @@
 package com.licenta.plugins
 
-import ch.qos.logback.core.subst.Token
 import com.licenta.data.datasources.CaptureDataSource
 import com.licenta.data.datasources.ExerciseDataSource
 import com.licenta.data.datasources.UserDataSource
@@ -28,7 +27,7 @@ fun Application.configureRouting() {
         login(userDataSource, hashingService, tokenService, tokenConfig)
         checkAuthOnStart()
         getUserCaptures(captureDataSource)
-        insertCapture(captureDataSource)
+        insertCapture(captureDataSource, exerciseDataSource, workoutDataSource)
         getWorkoutByUser(workoutDataSource, exerciseDataSource)
 
     }

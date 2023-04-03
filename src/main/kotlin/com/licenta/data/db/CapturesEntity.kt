@@ -18,9 +18,9 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 @Serializable
-sealed interface Capture : Entity<Capture> {
+sealed interface CaptureEntity : Entity<CaptureEntity> {
     @Serializable
-    companion object : Entity.Factory<Capture>()
+    companion object : Entity.Factory<CaptureEntity>()
     val id: Int
     var user: User
     var headForward: Float
@@ -29,7 +29,7 @@ sealed interface Capture : Entity<Capture> {
     var date: LocalDate
 }
 
-object Captures : Table<Capture>(tableName = "captures") {
+object Captures : Table<CaptureEntity>(tableName = "captures") {
     val id = int("id").primaryKey().bindTo { it.id }
     val userId = int("userId").references(Users) { it.user }
     val headForward = float("head_forward").bindTo { it.headForward }

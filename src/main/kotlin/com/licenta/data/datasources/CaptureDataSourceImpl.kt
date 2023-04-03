@@ -1,8 +1,8 @@
 package com.licenta.data.datasources
 
 import com.licenta.data.db.captures
-import com.licenta.data.db.mappers.captureToCaptureDto
-import com.licenta.data.db.mappers.postureCaptureReqToCapture
+import com.licenta.data.db.mappers.captureEntityToCaptureDto
+import com.licenta.data.db.mappers.captureReqToCaptureEntity
 import com.licenta.data.db.users
 import com.licenta.data.models.request.CaptureReq
 import com.licenta.data.models.response.CaptureRes
@@ -22,21 +22,21 @@ class CaptureDataSourceImpl(
     private val captures = db.captures
     override suspend fun getAllCaptures(id: Int) : PostureHistory {
         val capturesList =  captures.filter { it.userId eq id }
-            .map { row -> captureToCaptureDto(row) }
+            .map { row -> captureEntityToCaptureDto(row) }
 
         return PostureHistory(capturesList)
     }
 
     override suspend fun getCaptureByDate(date: LocalDate) : CaptureRes? {
         return captures.find { it.date eq date }?.let {
-            captureToCaptureDto(it)
+            captureEntityToCaptureDto(it)
          }
     }
 
     override suspend fun insertCapture(id: Int, newCapture: CaptureReq) : Boolean {
         try {
             val user = db.users.find { it.id eq id }!!
-            val capture = postureCaptureReqToCapture(newCapture).also {
+            val capture = captureReqToCaptureEntity(newCapture).also {
                 it.user = user
                 it.date = LocalDate.now()
             }

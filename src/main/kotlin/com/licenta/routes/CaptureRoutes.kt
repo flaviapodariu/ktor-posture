@@ -1,7 +1,10 @@
 package com.licenta.routes
 
 import com.licenta.data.datasources.CaptureDataSource
+import com.licenta.data.datasources.ExerciseDataSource
+import com.licenta.data.datasources.WorkoutDataSource
 import com.licenta.data.models.request.CaptureReq
+import com.licenta.data.util.recommendWorkout
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
@@ -33,7 +36,9 @@ fun Route.getUserCaptures(
 }
 
 fun Route.insertCapture(
-    captureDataSource: CaptureDataSource
+    captureDataSource: CaptureDataSource,
+    exerciseDataSource: ExerciseDataSource,
+    workoutDataSource: WorkoutDataSource
 ) {
     authenticate{
         post("dashboard") {
@@ -52,6 +57,9 @@ fun Route.insertCapture(
                 )
                 return@post
             }
+
+            val workout = recommendWorkout(req, exerciseDataSource)
+            workoutDataSource.insertWorkout(id.toInt(), workout)
 
             call.respond(
                 status = HttpStatusCode.Created,

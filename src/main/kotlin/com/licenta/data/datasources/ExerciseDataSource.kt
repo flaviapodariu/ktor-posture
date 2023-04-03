@@ -6,7 +6,10 @@ import com.licenta.data.models.Exercise
 interface ExerciseDataSource {
 
     suspend fun getExerciseById(exerciseId: Int) : Exercise?
-    suspend fun getAllLordosisByScoreDesc() : List<ExerciseEntity>
-    suspend fun getAllRoundedShouldersByScoreDesc() : List<Exercise>
-    suspend fun getAllHeadForwardByScoreDesc() : List<Exercise>
+    suspend fun getAllByLordosisDesc() : List<ExerciseEntity>
+    suspend fun getLordosisWhereScoreAbove(score: Int) : List<ExerciseEntity>
+    suspend fun getAllByRoundedShouldersDesc() : List<ExerciseEntity>
+    suspend fun getRoundedShouldersWhereScoreAbove(score: Int) : List<ExerciseEntity>
+    suspend fun getAllByHeadForwardDesc() : List<ExerciseEntity>
+    suspend fun getHeadForwardWhereScoreAbove(score: Int) : List<ExerciseEntity>
 }
