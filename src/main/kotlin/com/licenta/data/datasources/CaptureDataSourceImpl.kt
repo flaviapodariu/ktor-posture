@@ -1,12 +1,11 @@
 package com.licenta.data.datasources
 
 import com.licenta.data.db.captures
-import com.licenta.data.db.mappers.captureEntityToCaptureDto
+import com.licenta.data.db.mappers.captureEntityToCaptureRes
 import com.licenta.data.db.mappers.captureReqToCaptureEntity
 import com.licenta.data.db.users
 import com.licenta.data.models.request.CaptureReq
 import com.licenta.data.models.response.CaptureRes
-import com.licenta.data.models.response.PostureHistory
 import org.ktorm.database.Database
 import org.ktorm.dsl.eq
 import org.ktorm.entity.add
@@ -20,22 +19,22 @@ class CaptureDataSourceImpl(
 ) : CaptureDataSource {
 
     private val captures = db.captures
-    override suspend fun getAllCaptures(id: Int) : PostureHistory {
-        val capturesList =  captures.filter { it.userId eq id }
-            .map { row -> captureEntityToCaptureDto(row) }
-
-        return PostureHistory(capturesList)
+    override suspend fun getAllCaptures(id: Int) : List<CaptureRes> {
+        return captures.filter { it.userId eq id }
+            .map { row -> captureEntityToCaptureRes(row) }
     }
 
     override suspend fun getCaptureByDate(date: LocalDate) : CaptureRes? {
         return captures.find { it.date eq date }?.let {
-            captureEntityToCaptureDto(it)
+            captureEntityToCaptureRes(it)
          }
     }
 
     override suspend fun insertCapture(id: Int, newCapture: CaptureReq) : Boolean {
         try {
-            val user = db.users.find { it.id eq id }!!
+            val user = db.users.find { it.id eq id }
+            if(user == null) return false
+
             val capture = captureReqToCaptureEntity(newCapture).also {
                 it.user = user
                 it.date = LocalDate.now()

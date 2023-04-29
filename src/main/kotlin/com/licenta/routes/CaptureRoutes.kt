@@ -42,7 +42,6 @@ fun Route.insertCapture(
 ) {
     authenticate{
         post("dashboard") {
-            println("endpoint hit")
            val req = call.receiveNullable<CaptureReq>() ?: run {
                 call.respond(HttpStatusCode.BadRequest) // req json could not be mapped to register request model
                 return@post

@@ -1,6 +1,6 @@
 package com.licenta.data.datasources
 
-import com.licenta.data.db.UsersExercise
+import com.licenta.data.db.UserExercise
 import com.licenta.data.db.UsersExercises
 import com.licenta.data.db.mappers.usersExerciseToWorkoutRes
 import com.licenta.data.db.userExercises
@@ -23,7 +23,7 @@ class WorkoutDataSourceImpl(
              }
     }
 
-    override suspend fun insertWorkout(userId: Int, workout: List<UsersExercise>) : Boolean {
+    override suspend fun insertWorkout(userId: Int, workout: List<UserExercise>) : Boolean {
         try {
             db.bulkInsert(UsersExercises) {
                 workout.forEach { exercise ->

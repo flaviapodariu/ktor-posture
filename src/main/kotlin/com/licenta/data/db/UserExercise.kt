@@ -8,15 +8,15 @@ import org.ktorm.schema.Table
 import org.ktorm.schema.int
 
 @Serializable
-sealed interface UsersExercise : Entity<UsersExercise> {
+sealed interface UserExercise : Entity<UserExercise> {
     @Serializable
-    companion object : Entity.Factory<UsersExercise>()
+    companion object : Entity.Factory<UserExercise>()
     var user: User
     var exercise: ExerciseEntity
     var reps: Int
 }
 
-object UsersExercises : Table<UsersExercise>(tableName = "users_exercises") {
+object UsersExercises : Table<UserExercise>(tableName = "user_exercise") {
     val userId = int("userId").primaryKey().references(Users) { it.user }
     val exerciseId = int("exerciseId").primaryKey().references(ExercisesEntitity) { it.exercise }
     val reps = int("reps").bindTo { it.reps }

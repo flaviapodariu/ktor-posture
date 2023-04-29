@@ -12,7 +12,7 @@ fun captureReqToCaptureEntity(captureReq: CaptureReq) : CaptureEntity {
     }
 }
 
-fun captureEntityToCaptureDto(captureEntity: CaptureEntity) : CaptureRes {
+fun captureEntityToCaptureRes(captureEntity: CaptureEntity) : CaptureRes {
     return CaptureRes(
         id = captureEntity.id,
         userId = captureEntity.user.id,

@@ -25,33 +25,5 @@ class ExerciseDataSourceImpl(
         return null
     }
 
-    override suspend fun getAllByLordosisDesc() : List<ExerciseEntity> {
-       return exercises.sortedByDescending { it.lordosisScore }
-           .toList()
-    }
 
-    override suspend fun getAllByRoundedShouldersDesc() : List<ExerciseEntity> {
-        return exercises.sortedByDescending { it.roundedShScore }
-            .toList()
-    }
-
-    override suspend fun getAllByHeadForwardDesc() : List<ExerciseEntity> {
-        return exercises.sortedByDescending { it.headFwdScore }
-            .toList()
-    }
-
-    override suspend fun getLordosisWhereScoreAbove(score: Int): List<ExerciseEntity> {
-        return exercises.filter { it.lordosisScore greaterEq score }
-            .toList()
-    }
-
-    override suspend fun getRoundedShouldersWhereScoreAbove(score: Int): List<ExerciseEntity> {
-        return exercises.filter { it.roundedShScore greaterEq score }
-            .toList()
-    }
-
-    override suspend fun getHeadForwardWhereScoreAbove(score: Int): List<ExerciseEntity> {
-        return exercises.filter { it.headFwdScore greaterEq score }
-            .toList()
-    }
 }
