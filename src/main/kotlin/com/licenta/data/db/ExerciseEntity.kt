@@ -19,7 +19,6 @@ sealed interface ExerciseEntity : Entity<ExerciseEntity> {
     var imageUrl: String
 
 }
-
 object ExercisesEntitity : Table<ExerciseEntity>(tableName = "exercises") {
     val id = int("id").primaryKey().bindTo { it.id }
     val name = varchar("name").bindTo { it.name }

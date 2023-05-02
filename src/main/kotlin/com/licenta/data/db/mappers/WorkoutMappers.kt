@@ -13,10 +13,12 @@ fun exerciseEntityToExercise(entity: ExerciseEntity) : Exercise {
         imageUrl = entity.imageUrl
     )
 }
-fun usersExerciseToWorkoutRes(userEx: UserExercise) : WorkoutRes{
+fun usersExerciseToWorkoutRes(userEx: UserExercise, exercise: ExerciseEntity) : WorkoutRes {
+
     return WorkoutRes(
         exercise = exerciseEntityToExercise(userEx.exercise),
-        reps = userEx.reps
+        reps = userEx.reps,
+        targets = listOf()
     )
 }
 

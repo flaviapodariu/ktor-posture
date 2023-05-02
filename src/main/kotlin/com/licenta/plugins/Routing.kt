@@ -1,9 +1,6 @@
 package com.licenta.plugins
 
-import com.licenta.data.datasources.CaptureDataSource
-import com.licenta.data.datasources.ExerciseDataSource
-import com.licenta.data.datasources.UserDataSource
-import com.licenta.data.datasources.WorkoutDataSource
+import com.licenta.data.datasources.*
 import com.licenta.routes.*
 import com.licenta.security.HashingService
 import com.licenta.security.jwt.JwtTokenService
@@ -18,6 +15,7 @@ fun Application.configureRouting() {
     val captureDataSource by inject<CaptureDataSource>()
     val userDataSource by inject<UserDataSource>()
     val exerciseDataSource by inject<ExerciseDataSource>()
+    val exerciseMuscleDataSource by inject<ExerciseMuscleDataSource>()
     val workoutDataSource by inject<WorkoutDataSource>()
     val tokenService by inject<JwtTokenService>()
     val tokenConfig by inject<TokenConfig>()
@@ -28,7 +26,7 @@ fun Application.configureRouting() {
         checkAuthOnStart()
         getUserCaptures(captureDataSource)
         insertCapture(captureDataSource, exerciseDataSource, workoutDataSource)
-        getWorkoutByUser(workoutDataSource, exerciseDataSource)
+        getWorkoutByUser(workoutDataSource, exerciseMuscleDataSource)
         getExerciseById(exerciseDataSource)
 
     }

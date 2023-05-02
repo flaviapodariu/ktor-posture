@@ -6,5 +6,12 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class WorkoutRes(
     val exercise: Exercise,
-    val reps: Int
+    val reps: Int,
+    var targets: List<ExerciseMuscleType>
+)
+
+@Serializable
+data class ExerciseMuscleType(
+    val muscle: String,
+    val type: String
 )

@@ -31,6 +31,7 @@ val postureModule = module {
     single<ExerciseDataSource> { ExerciseDataSourceImpl(db= get()) }
     single<UserDataSource> { UserDataSourceImpl(db= get()) }
     single<WorkoutDataSource> { WorkoutDataSourceImpl(db= get()) }
+    single<ExerciseMuscleDataSource> {ExerciseMuscleDataSourceImpl(db= get() )}
 
     single { JwtTokenService() }
     single {
