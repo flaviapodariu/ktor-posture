@@ -2,6 +2,7 @@ package com.licenta.routes
 
 import com.licenta.data.datasources.CaptureDataSource
 import com.licenta.data.datasources.ExerciseDataSource
+import com.licenta.data.datasources.ExerciseMuscleDataSource
 import com.licenta.data.datasources.WorkoutDataSource
 import com.licenta.data.models.request.CaptureReq
 import com.licenta.data.util.recommendWorkout
@@ -37,7 +38,7 @@ fun Route.getUserCaptures(
 
 fun Route.insertCapture(
     captureDataSource: CaptureDataSource,
-    exerciseDataSource: ExerciseDataSource,
+    exerciseMuscleDataSource: ExerciseMuscleDataSource,
     workoutDataSource: WorkoutDataSource
 ) {
     authenticate{
@@ -57,7 +58,7 @@ fun Route.insertCapture(
                 return@post
             }
 
-            val workout = recommendWorkout(req, exerciseDataSource)
+            val workout = recommendWorkout(req, exerciseMuscleDataSource)
             workoutDataSource.insertWorkout(id.toInt(), workout)
 
             call.respond(

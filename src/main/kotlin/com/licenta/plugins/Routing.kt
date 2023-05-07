@@ -25,7 +25,7 @@ fun Application.configureRouting() {
         login(userDataSource, hashingService, tokenService, tokenConfig)
         checkAuthOnStart()
         getUserCaptures(captureDataSource)
-        insertCapture(captureDataSource, exerciseDataSource, workoutDataSource)
+        insertCapture(captureDataSource, exerciseMuscleDataSource, workoutDataSource)
         getWorkoutByUser(workoutDataSource, exerciseMuscleDataSource)
         getExerciseById(exerciseDataSource)
 

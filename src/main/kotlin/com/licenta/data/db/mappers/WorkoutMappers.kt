@@ -5,6 +5,15 @@ import com.licenta.data.db.UserExercise
 import com.licenta.data.models.Exercise
 import com.licenta.data.models.response.WorkoutRes
 
+fun exerciseToExerciseEntity(exercise: Exercise) : ExerciseEntity {
+    return ExerciseEntity {
+        id = exercise.id
+        name = exercise.name
+        description = exercise.description
+        imageUrl = exercise.imageUrl
+    }
+}
+
 fun exerciseEntityToExercise(entity: ExerciseEntity) : Exercise {
     return Exercise(
         id = entity.id,

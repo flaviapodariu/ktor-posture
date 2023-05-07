@@ -1,6 +1,5 @@
 package com.licenta.routes
 
-import com.licenta.data.datasources.ExerciseDataSource
 import com.licenta.data.datasources.ExerciseMuscleDataSource
 import com.licenta.data.datasources.WorkoutDataSource
 import io.ktor.http.*

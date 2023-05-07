@@ -13,7 +13,7 @@ sealed interface ExerciseEntity : Entity<ExerciseEntity> {
     @Serializable
     companion object : Entity.Factory<ExerciseEntity>()
 
-    val id: Int
+    var id: Int
     var name: String
     var description: String
     var imageUrl: String
