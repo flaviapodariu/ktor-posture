@@ -10,4 +10,6 @@ interface CaptureDataSource {
     suspend fun getCaptureByDate(date: LocalDate) : CaptureRes?
 
     suspend fun insertCapture(id: Int, newCapture: CaptureReq) : Boolean
+
+    fun deleteCaptureByDate(userId: Int, date: LocalDate)
 }

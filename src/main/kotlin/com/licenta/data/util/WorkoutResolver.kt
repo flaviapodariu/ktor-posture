@@ -11,10 +11,9 @@ import kotlin.math.abs
 suspend fun recommendWorkout(
     userCapture: CaptureReq,
     exerciseMuscleDataSource: ExerciseMuscleDataSource
-) : List<UserExercise> {
+) : Set<UserExercise> {
 
-    val workout = mutableListOf<UserExercise>()
-    val exerciseList = mutableListOf<ExerciseEntity>()
+    val workout = mutableSetOf<UserExercise>()
 
     val hf = HEAD_FORWARD_NORMAL - userCapture.headForward
     val rs = ROUNDED_SHOULDERS_NORMAL - userCapture.roundedShoulders
@@ -24,9 +23,12 @@ suspend fun recommendWorkout(
         LORDOSIS to apt,
         HEAD_FORWARD to hf,
         ROUNDED_SHOULDERS to rs
-    ).toList().filter { it.second > CAPTURE_BUFFER }.sortedByDescending { abs(it.second) }
+    ).toList().filter { abs(it.second) > CAPTURE_BUFFER }.sortedByDescending { abs(it.second) }
 
     val problemsCount = problems.count()
+
+    if(problemsCount == 0) return setOf()
+
     var exPerProblem = NUMBER_OF_EXERCISES / problemsCount
 
     problems.forEachIndexed { index, (problem, value) ->
@@ -56,7 +58,6 @@ suspend fun recommendWorkout(
     return workout
 }
 
-
 suspend fun exerciseSelection(
     problem: Int,
     numberOfExercises: Int,
@@ -77,7 +78,6 @@ suspend fun exerciseSelection(
 
     return workout
 }
-
 
 suspend fun exerciseByProblem(
     problem: Int,

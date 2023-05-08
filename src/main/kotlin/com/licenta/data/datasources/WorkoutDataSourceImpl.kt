@@ -14,6 +14,7 @@ import org.ktorm.entity.filter
 import org.ktorm.entity.forEach
 import org.ktorm.entity.map
 import org.ktorm.support.mysql.bulkInsert
+import org.ktorm.support.mysql.bulkInsertOrUpdate
 
 class WorkoutDataSourceImpl(
      val db: Database
@@ -29,13 +30,18 @@ class WorkoutDataSourceImpl(
 
     }
 
-    override suspend fun insertWorkout(userId: Int, workout: List<UserExercise>) : Boolean {
+    override suspend fun insertWorkout(userId: Int, workout: Set<UserExercise>) : Boolean {
+        println(workout)
+
         try {
-            db.bulkInsert(UsersExercises) {
+            db.bulkInsertOrUpdate(UsersExercises) {
                 workout.forEach { exercise ->
                     item {
                         set(it.userId, userId)
                         set(it.exerciseId, exercise.exercise.id)
+                        set(it.reps, exercise.reps)
+                    }
+                    onDuplicateKey {
                         set(it.reps, exercise.reps)
                     }
                 }

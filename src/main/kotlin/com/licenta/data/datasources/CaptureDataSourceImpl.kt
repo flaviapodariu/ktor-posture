@@ -7,6 +7,7 @@ import com.licenta.data.db.users
 import com.licenta.data.models.request.CaptureReq
 import com.licenta.data.models.response.CaptureRes
 import org.ktorm.database.Database
+import org.ktorm.dsl.and
 import org.ktorm.dsl.eq
 import org.ktorm.entity.add
 import org.ktorm.entity.filter
@@ -49,4 +50,7 @@ class CaptureDataSourceImpl(
         return true
     }
 
+    override fun deleteCaptureByDate(userId: Int, date: LocalDate) {
+        captures.find { it.userId eq userId and(it.date eq date) }
+    }
 }

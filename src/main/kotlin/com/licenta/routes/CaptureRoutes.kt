@@ -59,7 +59,7 @@ fun Route.insertCapture(
             }
 
             val workout = recommendWorkout(req, exerciseMuscleDataSource)
-            workoutDataSource.insertWorkout(id.toInt(), workout)
+            workoutDataSource.insertWorkout(id.toInt(), workout).also { println(it) }
 
             call.respond(
                 status = HttpStatusCode.Created,

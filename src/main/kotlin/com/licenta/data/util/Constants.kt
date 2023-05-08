@@ -13,10 +13,6 @@ const val LOW_RISK = 10
 const val MEDIUM_RISK = 15
 const val HIGH_RISK = 22
 
-const val MIN_SCORE_LOW_RISK = 5
-const val MIN_SCORE_MEDIUM_RISK = 7
-const val MIN_SCORE_HIGH_RISK = 9
-
 const val REPS_LOW_RISK = 8
 const val REPS_MEDIUM_RISK = 15
 const val REPS_HIGH_RISK = 20
