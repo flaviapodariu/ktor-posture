@@ -28,6 +28,7 @@ fun Application.configureRouting() {
         insertCapture(captureDataSource, exerciseMuscleDataSource, workoutDataSource)
         getWorkoutByUser(workoutDataSource, exerciseMuscleDataSource)
         getExerciseById(exerciseDataSource)
-
+        createWorkoutFromCapture(exerciseMuscleDataSource)
+        insertWorkout(workoutDataSource)
     }
 }

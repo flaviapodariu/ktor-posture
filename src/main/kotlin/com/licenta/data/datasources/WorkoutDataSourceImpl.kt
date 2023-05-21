@@ -25,13 +25,13 @@ class WorkoutDataSourceImpl(
 
          return usersExercise.filter { it.userId eq userId }
             .map {
-            usersExerciseToWorkoutRes(it, it.exercise)
+            usersExerciseToWorkoutRes(it)
         }
 
     }
 
-    override suspend fun insertWorkout(userId: Int, workout: Set<UserExercise>) : Boolean {
-        println(workout)
+
+    override suspend fun insertWorkout(userId: Int, workout: List<UserExercise>) : Boolean {
 
         try {
             db.bulkInsertOrUpdate(UsersExercises) {

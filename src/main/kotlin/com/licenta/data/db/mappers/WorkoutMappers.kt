@@ -1,6 +1,7 @@
 package com.licenta.data.db.mappers
 
 import com.licenta.data.db.ExerciseEntity
+import com.licenta.data.db.User
 import com.licenta.data.db.UserExercise
 import com.licenta.data.models.Exercise
 import com.licenta.data.models.response.WorkoutRes
@@ -22,13 +23,20 @@ fun exerciseEntityToExercise(entity: ExerciseEntity) : Exercise {
         imageUrl = entity.imageUrl
     )
 }
-fun usersExerciseToWorkoutRes(userEx: UserExercise, exercise: ExerciseEntity) : WorkoutRes {
+fun usersExerciseToWorkoutRes(userEx: UserExercise) : WorkoutRes {
 
     return WorkoutRes(
         exercise = exerciseEntityToExercise(userEx.exercise),
         reps = userEx.reps,
         targets = listOf()
     )
+}
+
+fun workoutResToUsersExercise(workout: WorkoutRes) : UserExercise {
+    return UserExercise {
+        this.exercise = exerciseToExerciseEntity(workout.exercise)
+        this.reps = workout.reps
+    }
 }
 
 

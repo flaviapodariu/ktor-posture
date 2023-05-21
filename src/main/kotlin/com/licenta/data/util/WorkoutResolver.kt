@@ -6,14 +6,15 @@ import com.licenta.data.db.UserExercise
 import com.licenta.data.db.mappers.exerciseToExerciseEntity
 import com.licenta.data.models.Exercise
 import com.licenta.data.models.request.CaptureReq
+import java.util.EmptyStackException
 import kotlin.math.abs
 
 suspend fun recommendWorkout(
     userCapture: CaptureReq,
     exerciseMuscleDataSource: ExerciseMuscleDataSource
-) : Set<UserExercise> {
+) : List<UserExercise> {
 
-    val workout = mutableSetOf<UserExercise>()
+    val workout = mutableListOf<UserExercise>()
 
     val hf = HEAD_FORWARD_NORMAL - userCapture.headForward
     val rs = ROUNDED_SHOULDERS_NORMAL - userCapture.roundedShoulders
@@ -27,7 +28,7 @@ suspend fun recommendWorkout(
 
     val problemsCount = problems.count()
 
-    if(problemsCount == 0) return setOf()
+    if(problemsCount == 0) return listOf()
 
     var exPerProblem = NUMBER_OF_EXERCISES / problemsCount
 
@@ -50,7 +51,7 @@ suspend fun recommendWorkout(
             workout.addAll(selection)
         }
         else {
-            //TODO bros dead af
+//            throw exception user has to see a doctor
         }
 
     }
@@ -67,7 +68,7 @@ suspend fun exerciseSelection(
     val exSet = mutableListOf<ExerciseEntity>()
     val workout = mutableListOf<UserExercise>()
 
-    exSet.addAll(exerciseByProblem(problem, numberOfExercises, exerciseMuscle))
+    exSet.addAll(exercisesByProblem(problem, numberOfExercises, exerciseMuscle))
 
     exSet.forEach {
         workout.add(UserExercise {
@@ -79,7 +80,7 @@ suspend fun exerciseSelection(
     return workout
 }
 
-suspend fun exerciseByProblem(
+suspend fun exercisesByProblem(
     problem: Int,
     numberOfExercises: Int,
     exerciseMuscle: ExerciseMuscleDataSource) : List<ExerciseEntity>

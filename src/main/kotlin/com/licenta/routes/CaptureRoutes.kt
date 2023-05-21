@@ -4,6 +4,7 @@ import com.licenta.data.datasources.CaptureDataSource
 import com.licenta.data.datasources.ExerciseDataSource
 import com.licenta.data.datasources.ExerciseMuscleDataSource
 import com.licenta.data.datasources.WorkoutDataSource
+import com.licenta.data.db.mappers.usersExerciseToWorkoutRes
 import com.licenta.data.models.request.CaptureReq
 import com.licenta.data.util.recommendWorkout
 import io.ktor.http.*
@@ -68,5 +69,31 @@ fun Route.insertCapture(
             return@post
         }
 
+    }
+}
+
+fun Route.createWorkoutFromCapture(
+    exerciseMuscleDataSource: ExerciseMuscleDataSource
+) {
+    post("dashboard/visitor"){
+        val req = call.receiveNullable<CaptureReq>() ?: run {
+            call.respond(HttpStatusCode.BadRequest)
+            return@post
+        }
+
+        val workout = recommendWorkout(req, exerciseMuscleDataSource)
+
+        val res = workout.map {
+            usersExerciseToWorkoutRes(it)
+        }
+        res.forEach {
+            it.targets = exerciseMuscleDataSource.getAllMuscleTargetsByExercise(it.exercise.id)
+        }
+
+        call.respond(
+            status = HttpStatusCode.OK,
+            message = res
+        )
+        return@post
     }
 }

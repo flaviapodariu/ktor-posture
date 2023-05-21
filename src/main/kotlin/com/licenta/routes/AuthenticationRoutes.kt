@@ -56,7 +56,7 @@ fun Route.register(
 
         call.respond(
             status= HttpStatusCode.Created,
-            message= AuthRes(token, user.nickname))
+            message= AuthRes(user.id, token, user.nickname))
     }
 }
 fun Route.login(
@@ -89,7 +89,7 @@ fun Route.login(
             TokenClaim("nickname", user.nickname)
             )
         call.respond(status=HttpStatusCode.OK,
-            message = AuthRes(token, user.nickname))
+            message = AuthRes(user.id, token, user.nickname))
         return@post
 }
 
@@ -102,10 +102,12 @@ fun Route.checkAuthOnStart() {
             val nickname = call.principal<JWTPrincipal>()!!
                 .payload.getClaim("nickname").asString()
 
-            println("nickn: ${nickname}")
+            val userId = call.principal<JWTPrincipal>()!!
+                .payload.getClaim("id").asString()
+
             call.respond(
                 HttpStatusCode.OK,
-                message= nickname)
+                message= AuthRes(userId.toInt(), "", nickname))
         }
     }
 }
