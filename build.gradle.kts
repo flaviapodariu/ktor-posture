@@ -30,7 +30,7 @@ repositories {
 
 tasks.withType<Jar> {
     manifest {
-        attributes["Main-Class"] = "com.licenta.Application.kt"
+        attributes["Main-Class"] = "com.licenta.ApplicationKt"
     }
 }
 
