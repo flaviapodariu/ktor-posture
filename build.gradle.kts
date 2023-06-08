@@ -19,8 +19,8 @@ version = "0.0.1"
 application {
     mainClass.set("com.licenta.ApplicationKt")
 
-    val isDevelopment: Boolean = false
-//    applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
+    val isDevelopment: Boolean = project.ext.has("development")
+    applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
 }
 
 repositories {
