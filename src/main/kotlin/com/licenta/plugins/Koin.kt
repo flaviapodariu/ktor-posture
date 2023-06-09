@@ -36,7 +36,7 @@ val postureModule = module {
     single { JwtTokenService() }
     single {
         TokenConfig(
-            issuer = "http://localhost:5000",
+            issuer = "http://0.0.0.0:5000",
             audience = "users",
             expiresIn = 60L * 60L * 24L * 30L * 1000L, //60sec* 60 min * 24h * 30 days * 1000ms => 30 days in ms
             secret = System.getenv("JWT_SECRET")
