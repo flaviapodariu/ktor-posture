@@ -22,7 +22,7 @@ fun Application.configureKoin() {
 val postureModule = module {
     single {
         Database.connect(
-            url= "jdbc:mysql://localhost:3306/posture-improver",
+            url= "jdbc:mysql://containers-us-west-82.railway.app:6193/railway",
             user= "root",
             password = System.getenv("DB_PASSWORD")
         )
